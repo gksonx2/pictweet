@@ -1,0 +1,9 @@
+<div class="contents row">
+    <!--rubyのルールとして式展開#{}を文字列中に使用する場合はダブルクォーテションを使う-->
+    <%= form_tag("/tweets/#{@tweet.id}", method: :patch ) do %>
+    <h3>編集する</h3>
+    <input type="text" name="image" value="<%= @tweet.image %>"　placeholder="Image Url" autofocus="true">
+    <textarea name="text" placeholder="text" rows="10" cols="30"><%= @tweet.text %></textarea>
+    <input type="submit" value="SEND">
+    <% end %>
+</div>

@@ -1,0 +1,57 @@
+<div class="contents row">
+<!--基本indexと同じ。each文の箇所とページネイトの箇所が不要となる（特定の投稿のみを表示するため）-->
+    <!--また%= @tweet.image %となるのは、tweets_controlerのdef showで@tweetに詳細表示するツイートの情報を代入しているため-->
+    <div class="content_post" style="background-image: url(<%= @tweet.image %>);">
+    <!--↓のコードでログインはサーバーのusersのためcurrent_user.id ツイートはtweetsかつ
+    tweets_controllerのdef show で@tweetに代入したtweetの投稿者のidを反映するため　@tweet.user_idとなっている-->
+        <% if user_signed_in? && current_user.id == @tweet.user_id %>
+            <div class="more">
+                <!--このimage_tag で画像イメージをHPに表示ができる-->
+                <span><%= image_tag 'arrow_top.png' %></span>
+                <ul class="more_list">
+                    <li>
+                    <!--#{@tweet.id}となるのは、tweets_controlerのdef showで@tweetに詳細表示するツイートの情報を代入しているため-->
+                        <%= link_to '編集', "/tweets/#{@tweet.id}/edit", method: :get %>
+                    </li>
+                    <li>
+                        <!--/tweets/#{tweet.id}となるのは、サーバーのtweetsのidが数字だからと考えるとわかりやすいかも（多分合ってるはず）-->
+                        <!--つまり文字の中に数字を反映させる際の#{} Rubyの文法と同じと考えると良い-->
+                        <!--#{@tweet.id}となるのは、tweets_controlerのdef showで@tweetに詳細表示するツイートの情報を代入しているため-->
+                        <%= link_to '削除', "/tweets/#{@tweet.id}", method: :delete %>
+                    </li>
+                </ul>
+            </div>
+        <% end %>
+        <!--下記の@tweetは全て。tweets_controlerのdef showで@tweetに当該ツイートを代入しているからこの記述となる-->
+        <%= simple_format(@tweet.text) %>
+        <!--user.rb(=モデル）とtweet.rb(=モデル)をアソシエーション後は<span class="name">%= tweet.name %></span>が下記に変わる-->
+        <span class="name">
+            <!--この<a href...></a>は投稿者名から投稿者のページへ飛べるようにしている-->
+           <a href="/users/<%= @tweet.user_id %>">
+            <!--下記はサーバーのtweetsのuser_idを呼び出している。アソシエーションしているのでusersのidと紐づいているため、ちゃんとidが表示される-->
+                <span>投稿者</span><%= @tweet.user.nickname %>
+            </a>
+        </span>
+    </div>
+    <div class="container">
+        <!--ここからフォーム-->
+        <% if current_user %>
+            <%= form_tag("/tweets/#{@tweet.id}/comments", method: :post) do %>
+                <textarea name="text" placeholder="コメントする" rows="2" cols="30"></textarea>
+                <input type="submit" value="SEND">
+            <% end %>
+        <% end %>
+        <div class="comments">
+            <h4><コメント一覧></h4>
+            <!--コメントがあればをifで書く-->
+            <% if @comments %>
+                <% @comments.each do |comment| %>
+                <p>
+                    <strong><%= link_to comment.user.nickname, "/users/#{comment.user_id}" %>:</strong>
+                    <%= comment.text %>
+                </p>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
+</div>

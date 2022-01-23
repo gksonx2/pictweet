@@ -1,0 +1,20 @@
+<div class="contents row">
+    <!--user_controllerで定義した@nickname = current_user.nicknameで抽出したログイン中のユーザーのニックネームを表示-->
+    <p><%= @nickname %>さんの投稿一覧
+    </p>
+    <!--user_controllerで定義した@tweets = Tweet.where(user_id: current_user.id)をそれぞれ表示するために「.each do ||」を使う-->
+    <% @tweets.each do |tweet| %>
+        <!--「render partial: "tweets/tweet"」は部分テンプレートの場所を指定している。-->
+        <!--「locals: { tweet: tweet }」は右側のtweetは上記のeachメソッドの|tweet|のこと。これを左側の部分テンプレのtweetに代入-->
+        <%= render partial: "tweets/tweet", locals: { tweet: tweet } %>
+    <!--下記部分は部分テンプレート（render)を作成すると上記の内容になる-->
+        <!--上のeach文の内容を下記でレイアウトする。-->
+        <!--１）まずはイメージ。ここでは背景として登録したURLから画像を表示-->
+    <!--    <div class="content_post" style="background-image: url(<　%= tweet.image %>);">-->
+        <!--２）次にツイートを表示。@tweetに格納した当該ユーザーのツイート表示のフォーマットをsimple_format（ヘルパーメソッド）を利用し表示-->
+    <!--    <　%= simple_format(tweet.text) %>-->
+        <!--user.rbとtweet.rbのアソシエイトによりサーバーのtweetsからnameを削除したため→は削除する<span class="name">%= tweet.name %></span>-->
+        <!--</div>            -->
+    <% end %>    
+    <%= paginate(@tweets) %>
+</div>

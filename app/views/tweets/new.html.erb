@@ -1,0 +1,16 @@
+<div class="contents row">
+    <div class="container">
+        <%= form_tag('/tweets', method: :post) do %>
+            <h3>
+            投稿する
+            </h3>
+            <!--ニックネームを入力をuser.rbとtweet.rbのアソシエートが済んだので→を削除<input type"text" name="name" placeholder="Nickname">-->
+            <!--写真のURLを入力-->
+            <input type="text" name="image" placeholder="Image Url">
+            <!--コメントを入力-->
+            <textarea name="text" placeholder="text" rows="10" cols="30"></textarea>
+            <!--上記で入力した内容をサーバーへ送信-->
+            <input type="submit" value="SEND">            
+        <% end %>
+    </div>
+</div>

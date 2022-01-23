@@ -1,0 +1,50 @@
+<div class="contents row">
+    <% @tweets.each do |tweet| %>
+    <!--下記は部分テンプレートとして_tweet.html.erbに切り取り→貼り付け-->
+        <!--<div class="content_post" style="background-image: url(<　%= tweet.image %>);">-->
+        <!--↓のコードでログインはサーバーのusersのためcurrent_user.id ツイートはtweetsのため tweet.user_idとなっている-->
+        <!--<div class="more">-->
+            <!--このimage_tag で画像イメージをHPに表示ができる-->
+        <!--    <span><-%= image_tag 'arrow_top.png' %></span>-->
+        <!--    <ul class="more_list">-->
+        <!--        <li>-->
+        <!--            <--%= link_to '詳細', "/tweets/#{tweet.id}", method: :get %>-->
+        <!--        </li>-->
+        <!--        <--% if user_signed_in? && current_user.id == tweet.user_id %>-->
+        <!--        <li>-->
+        <!--            <--%= link_to '編集', "/tweets/#{tweet.id}/edit", method: :get %>-->
+        <!--        </li>-->
+        <!--        <li>-->
+                    <!--/tweets/#{tweet.id}となるのは、サーバーのtweetsのidが数字だからと考えるとわかりやすいかも（多分合ってるはず）-->
+                    <!--つまり文字の中に数字を反映させる際の#{} Rubyの文法と同じと考えると良い-->
+        <!--            <--%= link_to '削除', "/tweets/#{tweet.id}", method: :delete %>-->
+        <!--        </li>-->
+        <!--        <--% end %>-->
+        <!--    </ul>-->
+        <!--</div>   -->
+        <!--    <--%= simple_format(tweet.text) %>-->
+            <!--user.rb(=モデル）とtweet.rb(=モデル)をアソシエーション後は<span class="name">%= tweet.name %></span>が下記に変わる-->
+        <!--    <span class="name">-->
+                <!--この<a href...></a>は投稿者名から投稿者のページへ飛べるようにしている-->
+        <!--       <a href="/users/<--%= tweet.user_id %>">-->
+                <!--下記はサーバーのtweetsのuser_idを呼び出している。アソシエーションしているのでusersのidと紐づいているため、ちゃんとidが表示される-->
+        <!--            <span>投稿者</span><--%= tweet.user.nickname %>-->
+        <!--        </a>-->
+        <!--    </span>-->
+        <!--</div>-->
+        
+        <%= render partial: "tweet", locals: { tweet: tweet } %>
+        <!--上記の「render partial: "tweet"」で_tweet.html.erb（部分テンプレート）を呼び出す。-->
+      <!--  loclas: { tweet: tweet } の右側のtweetはeachメソッドないの変数としての|tweet|です。-->
+    　　<!--左側のtweetへeachメソッドのtweetを代入し部分テンプレート内のtweet(e.g tweet.image等のtweet部分)に反映する仕組みです-->
+    <% end %>
+    <%= paginate(@tweets) %>
+</div>
+
+
+
+<!--% @tweets.each do |tweet| %>-->
+<!--    <p>%= tweet.name %></p>-->
+<!--    <p>%= tweet.text %></p>-->
+<!--    <p>%= tweet.image %></p>-->
+<!--% end %>-->
